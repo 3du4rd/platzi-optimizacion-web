@@ -2,6 +2,7 @@ import h from 'hyperscript'
 import lozad from 'lozad'
 import { fetchPopular, fetchHighestRated, fetchTrending } from './api'
 import CarouselItem from './CarouselItem'
+import { modalListener } from './modal/index'
 
 const SectionTitle = title => h('h3.carousel__title', title)
 
@@ -64,4 +65,19 @@ const Carousel = ({ itemsList = [] }) =>
   const carouselImages = document.querySelectorAll('.carousel-item__img')
   const observer = lozad(carouselImages)
   observer.observe()
+
+  //NodeList !== Array
+
+  document.body.addEventListener('click', event => {
+    const tagName = event.target.tagName
+    if (['IMG', 'A'].includes(tagName)) {
+      console.log(event.target.tagName)
+      modalListener(event)
+    }
+  })
+
+  /*const allYouTubeLinks = document.querySelectorAll('.js-video-link') 
+  allYouTubeLinks.forEach( link=> {
+    link.addEventListener('click', modalListener)
+  })*/
 })(document, window)
